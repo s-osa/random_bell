@@ -1,3 +1,3 @@
-module RandomBell
-  VERSION = "0.0.1"
+class RandomBell
+  VERSION = "0.1.0"
 end
