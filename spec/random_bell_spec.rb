@@ -28,7 +28,7 @@ describe RandomBell do
       end
 
       it "drow histgram", histogram: true do
-        puts @results.to_histogram
+        puts @bell.to_histogram
       end
     end
   end
@@ -58,7 +58,7 @@ describe RandomBell do
       end
 
       it "drow histgram", histogram: true do
-        puts @results.to_histogram
+        puts @bell.to_histogram
       end
     end
   end
@@ -88,7 +88,7 @@ describe RandomBell do
         end
 
         it "drow histgram", histogram: true do
-          puts @results.to_histogram
+          puts @bell.to_histogram
         end
       end
     end
@@ -114,7 +114,7 @@ describe RandomBell do
         end
 
         it "drow histgram", histogram: true do
-          puts @results.to_histogram
+          puts @bell.to_histogram
         end
       end
     end
