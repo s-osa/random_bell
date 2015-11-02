@@ -30,7 +30,7 @@ class RandomBell
 
     klasses, klass_width = [], (@range.max - @range.min).to_f / rows
     (0..rows).each_cons(2) do |left, right|
-      klasses << Range.new(@range.min + klass_width * left, @range.min + klass_width *right)
+      klasses << Range.new(@range.min + klass_width * left, @range.min + klass_width * right)
     end
 
     divider = (klasses.map{|klass| numbers.select{|num| klass.include?(num) }.size }.max / 50.0).ceil
