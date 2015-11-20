@@ -126,4 +126,100 @@ describe RandomBell do
       expect(bell.to_histogram).to match(/\*+/)
     end
   end
+
+  describe "accessor" do
+    context "appearance probability more than 1%" do
+      before :all do
+        @bell = RandomBell.new
+        @mu, @sigma, @range = 0.6, 0.3, 0.1 .. 1.2
+      end
+
+      it "should return set value as mu" do
+        @bell.mu = @mu
+        expect(@bell.mu).to eq @mu
+      end
+
+      it "should return set value as sigma" do
+        @bell.sigma = @sigma
+        expect(@bell.sigma).to eq @sigma
+      end
+
+      it "should return set value as range" do
+        @bell.range = @range
+        expect(@bell.range).to eq @range
+      end
+    end
+
+    context "appearance probability less than 1%" do
+      before :all do
+        @bell = RandomBell.new
+        @mu, @sigma, @range = 2, 0.1, 1.5..2.5
+      end
+
+      it "should return set value as mu" do
+        expect{@bell.mu = @mu}.to raise_error(ArgumentError)
+        expect(@bell.mu).to eq 0.5
+      end
+
+      it "should return set value as sigma" do
+        @bell.mu = 1.5
+        expect{@bell.sigma = @sigma}.to raise_error(ArgumentError)
+        @bell.mu = 0.5
+        expect(@bell.sigma).to eq 0.2
+      end
+
+      it "should return set value as range" do
+        expect{@bell.range = @range}.to raise_error(ArgumentError)
+        expect(@bell.range).to eq 0.0..1.0
+      end
+    end
+  end
+
+  describe "#renew" do
+    context "appearance probability more than 1%" do
+      before :all do
+        @bell = RandomBell.new
+        @mu, @sigma, @range = 2, 0.1, 1.5..2.5
+      end
+
+      it "should return true" do
+        expect(@bell.renew(mu: @mu, sigma: @sigma, range: @range)).to eq true
+      end
+
+      it "should return set value as mu" do
+        expect(@bell.mu).to eq @mu
+      end
+
+      it "should return set value as sigma" do
+        expect(@bell.sigma).to eq @sigma
+      end
+
+      it "should return set value as range" do
+        expect(@bell.range).to eq @range
+      end
+    end
+
+    context "appearance probability less than 1%" do
+      before :all do
+        @bell = RandomBell.new
+        @mu, @sigma, @range = 0, 0.1, 0.5..1.5
+      end
+
+      it "should return true" do
+        expect{@bell.renew(mu: @mu, sigma: @sigma, range: @range)}.to raise_error(ArgumentError)
+      end
+
+      it "should return set value as mu" do
+        expect(@bell.mu).to eq 0.5
+      end
+
+      it "should return set value as sigma" do
+        expect(@bell.sigma).to eq 0.2
+      end
+
+      it "should return set value as range" do
+        expect(@bell.range).to eq 0.0..1.0
+      end
+    end
+  end
 end
