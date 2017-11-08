@@ -118,6 +118,19 @@ describe RandomBell do
         end
       end
     end
+
+    context "seed given" do
+      before do
+        @bell1 = RandomBell.new(seed: 1234)
+        @bell2 = RandomBell.new(seed: 1234)
+      end
+
+      it "should return same sequence" do
+        100.times do
+          expect(@bell1.rand).to eq @bell2.rand
+        end
+      end
+    end
   end
 
   describe "#to_histogram" do

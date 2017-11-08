@@ -4,11 +4,13 @@ class RandomBell
   # @param mu     [Float]
   # @param sigma  [Float]
   # @param range  [Range]
+  # @param seed   [Integer]
   # @param method [Symbol] Method to generate standard normal distribution (:box_muller or :central_limit)
-  def initialize(mu: 0.5, sigma: 0.2, range: 0.0..1.0, method: :box_muller)
+  def initialize(mu: 0.5, sigma: 0.2, range: 0.0..1.0, seed: Random.new_seed, method: :box_muller)
     @mu     = mu
     @sigma  = sigma
     @range  = range
+    @rand_generator = Random.new(seed)
     @method = method
   end
 
@@ -54,16 +56,27 @@ class RandomBell
 
   # @return [Float]
   def box_muller
-    theta  = 2 * Math::PI * Random.rand
-    r      = Math.sqrt( -2 * Math.log(Random.rand) )
-    z1, z2 = r * Math.cos(theta), r * Math.sin(theta)
-    [z1, z2].sample
+    @box_muller_queue ||= []
+
+    if @box_muller_queue.empty?
+      theta  = 2 * Math::PI * random_number
+      r      = Math.sqrt( -2 * Math.log(random_number) )
+      z1, z2 = r * Math.cos(theta), r * Math.sin(theta)
+      @box_muller_queue += [z1, z2]
+    end
+
+    @box_muller_queue.shift
   end
 
   # @return [Float]
   def central_limit
     arr = []
-    12.times{ arr << Random.rand }
+    12.times{ arr << random_number }
     arr.reduce(0.0, &:+) - 6
+  end
+
+  # @return [Float]
+  def random_number
+    @rand_generator.rand
   end
 end
