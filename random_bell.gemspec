@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["hhelibebcnofnenamg@gmail.com"]
   spec.summary       = %q{Normal(Gaussian) random number generator.}
   spec.description   = %q{Normal(Gaussian) random number generator.}
-  spec.homepage      = ""
+  spec.homepage      = 'https://github.com/s-osa/random_bell'
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
